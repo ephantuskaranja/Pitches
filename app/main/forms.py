@@ -9,3 +9,11 @@ class CategoryForm(FlaskForm):
     """
     name = StringField('Pitch Category',validators=[Required()])
     submit = SubmitField('Create')
+
+
+class ContentForm(FlaskForm):
+    """
+    class to create form to write pitches
+    """
+    pitch = StringField('Pitch Content', validators=[Required()])
+    submit = SubmitField('Submit')
