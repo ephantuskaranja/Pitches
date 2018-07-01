@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..models import Category
-from .forms import CategoryForm
+from ..models import Category, Content
+from .forms import CategoryForm, ContentForm
 from flask_login import login_required,current_user
 
 # Views
@@ -37,3 +37,18 @@ def category(id):
     title = f'{category.name} page'
 
     return render_template('category.html',title=title, category=category)
+
+#add pitches
+@main.route('/category/pitch/new/<int:id>', methods=['GET', 'POST'])
+@login_required
+def new_pitch(id):
+    category = Category.query.get(id)
+    form = ContentForm()
+    if form.validate_on_submit():
+        content = form.content.data
+        new_content = Content(content=content, user=current_user, category_id=id)
+        new_content.save_content()
+        return redirect(url_for('.category', id=id))
+
+    title = 'New Pitch'
+    return render_template('new_content.html', title=title, content_form=form)
