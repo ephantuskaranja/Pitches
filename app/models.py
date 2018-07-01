@@ -12,6 +12,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(255), unique=True, index=True)
     password_hash = db.Column(db.String(255))
     pitches = db.relationship('Content', backref='user', lazy='dynamic')
+    comments = db.relationship('Comment', backref='user', lazy='dynamic')
+    votes = db.relationship('Vote', backref='user', lazy='dynamic')
+
+
     def __repr__(self):
         return f'User{self.username}'
 
@@ -64,3 +68,21 @@ class Content(db.Model):
         pitches = Content.query.order_by(Content.id.desc()).filter_by(category_id=category_id).all()
 
         return pitches
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String(255))
+    content_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls, pitch_id):
+        comments = Comment.query.order_by(Comment.id.desc()).filter_by(pitch_id=pitch_id).all()
+
+        return comments
