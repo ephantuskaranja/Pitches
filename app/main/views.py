@@ -28,3 +28,12 @@ def new_category():
         return redirect(url_for('.index'))
     title = 'New Pitch Category'
     return render_template('new_pitchcategory.html', category_form=form)
+
+
+#get categories
+@main.route('/category/<int:id>')
+def category(id):
+    category = Category.query.get(id)
+    title = f'{category.name} page'
+
+    return render_template('category.html',title=title, category=category)
