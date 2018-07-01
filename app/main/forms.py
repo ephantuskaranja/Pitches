@@ -17,3 +17,17 @@ class ContentForm(FlaskForm):
     """
     pitch = StringField('Pitch Content', validators=[Required()])
     submit = SubmitField('Submit')
+
+class CommentForm(FlaskForm):
+    """
+    class to create form to comment on a pitch
+    """
+    comment = StringField('Comment Content', validators=[Required()])
+    submit = SubmitField('Submit')
+
+
+class UpvoteForm(FlaskForm):
+    '''
+    Class to create a wtf form for upvoting a pitch
+    '''
+    submit = SubmitField('Upvote')
