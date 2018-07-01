@@ -34,6 +34,8 @@ def new_category():
 @main.route('/category/<int:id>')
 def category(id):
     category = Category.query.get(id)
+    pitch = Content.query.filter_by(category_id=id)
+
     title = f'{category.name} page'
 
     return render_template('category.html',title=title, category=category)
@@ -52,3 +54,11 @@ def new_pitch(id):
 
     title = 'New Pitch'
     return render_template('new_content.html', title=title, content_form=form)
+
+#display pitches
+@main.route('/pitch/<int:id>')
+def pitch(id):
+    content = Content.query.get(id)
+
+    title = f'Pitch { pitch.id }'
+    return render_template('pitch.html',title=title, content=content)
