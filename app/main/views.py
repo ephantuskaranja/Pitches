@@ -27,4 +27,4 @@ def new_category():
         new_category.save_category()
         return redirect(url_for('.index'))
     title = 'New Pitch Category'
-    return render_template('new_category.html', category_form=form)
+    return render_template('new_pitchcategory.html', category_form=form)
