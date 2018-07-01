@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, index=True)
     password_hash = db.Column(db.String(255))
+    pitches = db.relationship('Pitch', backref='user', lazy='dynamic')
     def __repr__(self):
         return f'User{self.username}'
 
@@ -35,7 +36,7 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
-    # comments = db.relationship('Comment', backref='user', lazy='dynamic')
+    pitches = db.relationship('Pitch', backref='category', lazy='dynamic')
 
     def save_category(self):
         db.session.add(self)
@@ -45,3 +46,21 @@ class Category(db.Model):
     def get_categories(cls):
         categories = Category.query.all()
         return categories
+
+
+class Content(db.Model):
+    __tablename__ = 'pitches'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(255))
+    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+
+    def save_pitch(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_pitches(cls, category_id):
+        pitches = Pitch.query.order_by(Pitch.id.desc()).filter_by(category_id=category_id).all()
+
+        return pitches
