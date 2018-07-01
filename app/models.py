@@ -13,7 +13,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(255))
     pitches = db.relationship('Content', backref='user', lazy='dynamic')
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
-    votes = db.relationship('Vote', backref='user', lazy='dynamic')
 
 
     def __repr__(self):

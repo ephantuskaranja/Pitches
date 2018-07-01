@@ -15,7 +15,7 @@ class ContentForm(FlaskForm):
     """
     class to create form to write pitches
     """
-    pitch = StringField('Pitch Content', validators=[Required()])
+    content = StringField('Pitch Content', validators=[Required()])
     submit = SubmitField('Submit')
 
 class CommentForm(FlaskForm):

@@ -11,10 +11,10 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-
+    categories = Category.get_categories()
     title = 'Home'
 
-    return render_template('index.html', title = title )
+    return render_template('index.html', title = title ,categories=categories)
 
 
 @main.route('/category/new', methods=['GET', 'POST'])
@@ -36,9 +36,10 @@ def category(id):
     category = Category.query.get(id)
     pitch = Content.query.filter_by(category_id=id)
 
-    title = f'{category.name} page'
 
-    return render_template('category.html',title=title, category=category)
+    title2 = f'{category.name} page'
+
+    return render_template('category.html',title=title2, category=category,pitch=pitch)
 
 #add pitches
 @main.route('/category/pitch/new/<int:id>', methods=['GET', 'POST'])
@@ -59,6 +60,22 @@ def new_pitch(id):
 @main.route('/pitch/<int:id>')
 def pitch(id):
     content = Content.query.get(id)
+    comment = Comment.get_comments(content_id)
 
     title = f'Pitch { pitch.id }'
-    return render_template('pitch.html',title=title, content=content)
+    return render_template('show_pitches.html',title=title, content=content,comment=comment)
+
+
+@main.route('/comment/new/<int:id>', methods=['GET', 'POST'])
+@login_required
+def new_comment(id):
+    pitch = Content.query.get(id)
+
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = form.comment.data
+        new_comment = Comment(comment=comment, user=current_user, pitch_id=id)
+        new_comment.save_comment()
+        return redirect(url_for('.pitch', id=id))
+    # title = f' Comment{comment.id}'
+    return render_template('new_comment.html', comment_form=form, content=pitch)
