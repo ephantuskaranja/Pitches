@@ -11,20 +11,50 @@
             <hr>
 
         </div>
-        <div class="card">
-                <div class="card-body">
+        <div class="panel panel-default">
+                <div class="panel-body">
                     {{ content.content}}
+
                     <button class="btn btn-outline-info"><a href="/comment/new/{{ content.id }}">comment</a></button>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+
+                <div class="row">
+
+                    <button class="btn btn-outline-info">
+                        <a href="/pitch/upvote/{{ content.id }}">
+                                Upvote
+
+                    </a>
+                    </button>
+
+                </div>
 
 
-                     {% for comment in comment %}
-                    <div class="card">
-                        <div class="card-body">
-                            {{ comment.comment }}<br>
-                       by: {{ comment.user.username }}
+                   show votes: <span>{{ total_votes }}</span>
+
+                <div class="row">
+
+                   <button class="btn btn-outline-info">
+                       <a href="/pitch/downvote/{{ content.id }}">
+                                Downvote
+
+                       </a>
+
+                   </button>
+                </div>
+
+            </div>
+                <div class="row">
+                    {% for comment in comment %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {{ comment.comment }}<br>
+                           by: {{ comment.user.username }}
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+
                 </div>
         </div>
 

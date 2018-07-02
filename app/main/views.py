@@ -62,8 +62,11 @@ def pitch(id):
     content = Content.query.get(id)
     comment = Comment.get_comments(content_id=id)
 
+    total_votes = Vote.num_vote(content.id)
+
+
     title = f'Pitch { content.id }'
-    return render_template('show_pitches.html',title=title, content=content,comment=comment)
+    return render_template('show_pitches.html',title=title, content=content,comment=comment,total_votes=total_votes)
 
 
 @main.route('/comment/new/<int:id>', methods=['GET', 'POST'])
@@ -90,5 +93,18 @@ def upvote(id):
     content = Content.query.get(id)
 
     new_vote = Vote(user=current_user, content=content, vote_number=1)
+    new_vote.save_vote()
+    return redirect(url_for('.pitch', id=id))
+
+
+@main.route('/pitch/downvote/<int:id>')
+@login_required
+def downvote(id):
+    '''
+    View function that add one to the vote_number column in the votes table
+    '''
+    content = Content.query.get(id)
+
+    new_vote = Vote(user=current_user, content=content, vote_number=-1)
     new_vote.save_vote()
     return redirect(url_for('.pitch', id=id))
