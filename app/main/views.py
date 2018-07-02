@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..models import Category, Content, Comment
+from ..models import Category, Content, Comment, Vote
 from .forms import CategoryForm, ContentForm, CommentForm
 from flask_login import login_required,current_user
 
@@ -79,3 +79,16 @@ def new_comment(id):
         return redirect(url_for('.pitch', id=id))
     # title = f' Comment{comment.id}'
     return render_template('new_comment.html', comment_form=form, content=pitch)
+
+
+@main.route('/pitch/upvote/<int:id>')
+@login_required
+def upvote(id):
+    '''
+    View function that add one to the vote_number column in the votes table
+    '''
+    content = Content.query.get(id)
+
+    new_vote = Vote(user=current_user, content=content, vote_number=1)
+    new_vote.save_vote()
+    return redirect(url_for('.pitch', id=id))
