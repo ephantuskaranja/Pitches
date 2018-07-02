@@ -1,4 +1,3 @@
 .DS_Store
-virtual/
 *.pyc
 start.sh
