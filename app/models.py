@@ -57,6 +57,7 @@ class Content(db.Model):
     content = db.Column(db.String(255))
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comments = db.relationship('Comment', backref='pitch', lazy='dynamic')
 
     def save_content(self):
         db.session.add(self)
@@ -81,7 +82,7 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_comments(cls, pitch_id):
-        comments = Comment.query.order_by(Comment.id.desc()).filter_by(pitch_id=pitch_id).all()
+    def get_comments(cls, content_id):
+        comments = Comment.query.order_by(Comment.id.desc()).filter_by(content_id=content_id).all()
 
         return comments

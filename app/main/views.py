@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from ..models import Category, Content
-from .forms import CategoryForm, ContentForm
+from ..models import Category, Content, Comment
+from .forms import CategoryForm, ContentForm, CommentForm
 from flask_login import login_required,current_user
 
 # Views
@@ -34,12 +34,12 @@ def new_category():
 @main.route('/category/<int:id>')
 def category(id):
     category = Category.query.get(id)
-    pitch = Content.query.filter_by(category_id=id)
-
+    content = Content.query.filter_by(category_id=id)
+    print(content)
 
     title2 = f'{category.name} page'
 
-    return render_template('category.html',title=title2, category=category,pitch=pitch)
+    return render_template('category.html',title=title2, category=category,content=content)
 
 #add pitches
 @main.route('/category/pitch/new/<int:id>', methods=['GET', 'POST'])
@@ -60,9 +60,9 @@ def new_pitch(id):
 @main.route('/pitch/<int:id>')
 def pitch(id):
     content = Content.query.get(id)
-    comment = Comment.get_comments(content_id)
+    comment = Comment.get_comments(content_id=id)
 
-    title = f'Pitch { pitch.id }'
+    title = f'Pitch { content.id }'
     return render_template('show_pitches.html',title=title, content=content,comment=comment)
 
 
@@ -74,7 +74,7 @@ def new_comment(id):
     form = CommentForm()
     if form.validate_on_submit():
         comment = form.comment.data
-        new_comment = Comment(comment=comment, user=current_user, pitch_id=id)
+        new_comment = Comment(comment=comment, user=current_user, content_id=id)
         new_comment.save_comment()
         return redirect(url_for('.pitch', id=id))
     # title = f' Comment{comment.id}'
