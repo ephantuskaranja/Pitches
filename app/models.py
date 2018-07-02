@@ -86,3 +86,28 @@ class Comment(db.Model):
         comments = Comment.query.order_by(Comment.id.desc()).filter_by(content_id=content_id).all()
 
         return comments
+
+
+class Vote(db.Model):
+    __tablename__ = 'votes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    content_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+    vote_number = db.Column(db.Integer)
+
+    def save_vote(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+    @classmethod
+    def get_votes(cls,user_id,content_id):
+        votes = Vote.query.filter_by(user_id=user_id,content_id=content_id).all()
+        return votes
+
+    @classmethod
+    def num_vote(cls,content_id):
+        found_votes = db.session.query(func.sum(Vote.vote_number))
+        found_votes = found_votes.filter_by(content_id=content_id).group_by(Vote.content_id)
+        votes_list = sum([i[0] for i in found_votes.all()])
+        return votes_list
