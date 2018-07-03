@@ -1,1 +1,72 @@
-Generic single-database configuration.
+# One Minute Pitch
+
+### An application built on flask. it stores pitches categories, pitches comments and likes and dislikes, June 29th, 2018.
+#### By **[Ephantus karanja](https://github.com/ephantuskaranja)**
+
+## Description
+This app help users to input pitches according to categories, comment on pitches posted, like or 
+dislike them. The application stores all this data in postgress database.
+
+## Cloning 
+    use this link to clone the repo
+    [https://github.com/ephantuskaranja/Pitches.git]
+## Known Bugs
+    No bugs so far. If found, email me at ephantusslogan@gmail.com
+
+## Contributions
+    Incase you want to contribute, kindly feel free to clone the repo from here:
+    (https://github.com/ephantuskaranja/Pitches.git)
+
+## Setting Up
+    1.Create a Virtual Environment
+     -sudo apt-get install python3.6-venv 
+     -python3.6 -m venv virtual source virtual/bin/activate
+
+    2.Install dependancies
+    -run pip3 install -r requirements
+
+    3.Prepare environment variables
+    -export DATABASE_URL='postgresql+psycopg2://username:password@localhost/pitches'
+    -export SECRET_KEY='Your secret key'
+    -Run Database Migrations
+    -ython manage.py db init
+    -python manage.py db migrate -m "initial migration"
+    -python manage.py db upgrade
+    -Running the app in development
+    -In the same terminal type: python3 manage.py server
+
+    -Open the browser on http://localhost:5000/
+
+
+
+## Technologies Used
+    - Python 3.6
+    - HTML
+    - Bootstrap 4
+    - JavaScript
+    - Heroku
+    - Postgresql
+
+## Support and contact details
+Contact me on ephantusslogan.com for any comments, reviews or advice.
+
+## License
+Copyright (c) **Ephantus Karanja**
+    MIT
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
