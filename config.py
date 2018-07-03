@@ -6,7 +6,7 @@ class Config:
     '''
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://ephantus:switcher12@localhost/piches_app'
 
-
+    SECRET_KEY=os.environ.get('SECRET_KEY')
 class ProdConfig(Config):
     '''
     Pruduction configuration child class
